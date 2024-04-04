@@ -8,7 +8,6 @@ const routes = require('./routes/routes');
 
 const app = express();
 
- lol 
 //MIddle wears
 app.use(bodyparser.json());
 
