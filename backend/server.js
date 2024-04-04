@@ -5,12 +5,14 @@ const path = require('path');
 const bodyparser = require('body-parser');
 const config = require('./config')
 const routes = require('./routes/routes');
+const cookieparser = require('cookie-parser');
 
 const app = express();
 
 //MIddle wears
 app.use(bodyparser.json());
-
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieparser())
 
 // Routes
 app.use('/todos', routes);
