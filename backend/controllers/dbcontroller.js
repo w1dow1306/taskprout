@@ -1,9 +1,7 @@
 const { query } = require('./db');
 
 
-// TODO:Create
-// TODO:Delete
-// TODO:update
+
 
 
 // GET ALL TODOS
@@ -17,7 +15,7 @@ exports.getAlltodos = async (req, res) => {
 };
 
 // GET TODOS OF SPECIFIC USER
-// TODO:Add authentication in the front end 
+
 exports.getIdtodos = async (req, res) => {
     try {
         const data = await query('select * from todos where uid =' + req.params.id);
@@ -33,26 +31,53 @@ exports.getIdtodos = async (req, res) => {
 
 exports.createtodo = async (req, res) => {
     // res.send(`insert into todos (uid, title, \`desc\`, body, priority, status) values (${uid}, '${title}', '${desc}', '${body}', ${prior}, ${status});`);
-    //TODO: create a system to generate unique t_id for each task
     try {
         const { title, desc, body, prior, status } = req.body;
         let uid = req.cookies["id"];
-        query(`insert into todos (uid, title, \`desc\`, body, priority, status) values (${uid}, '${title}', '${desc}', '${body}', ${prior}, ${status});`);
-        res.json({ message: "added" });
+        let t_id = (new Date().getSeconds() + String.fromCharCode(Math.floor(Math.random() * 26) + 97) + title[0] + prior + Math.floor((Math.random() * 10))).toString();
+        const data = await query(`insert into todos (uid, title, \`desc\`, body, priority, status,t_id) values (${uid}, '${title}', '${desc}', '${body}', ${prior}, ${status},'${t_id}');`);
+        res.send({ message: "added successfully", t_id: t_id });
     } catch (error) {
-        res.status(500).json({ message: error });
+        console.log(error)
+        res.status(500).json({ message: "Internal server error please try again!" });
     }
 }
+
+
+
+
+// Delete todo
 exports.deletetodo = async (req, res) => {
     try {
-        const { title } = req.body;
-        // let uid = req.cookies["id"];
-        // res.send(`DELETE FROM todos WHERE title = '${title}';`);
-        const data = await query(`DELETE FROM todos WHERE title = '${title}';`);
-        res.json({ message: 'done' });
+        const { t_id } = req.body;
+        const uid = req.cookies["id"];
+        
+        const data = await query(`select * FROM todos WHERE t_id = '${t_id.trim()}'`);
+        await query(`delete FROM todos WHERE t_id = '${t_id.trim()}' and uid=${uid};`);
+        res.json({ message: data });
     } catch (error) {
         res.status(500).json({ message: error });
     }
 }
 
 
+//update priority,status
+exports.updatetodo = async (req, res) => {
+    try {
+        let { t_id, prior, status } = req.body;
+        let uid = req.cookies["id"];
+        if (!prior) {
+            prior = (await query((`select priority from todos where t_id='${t_id}' and uid=${uid};`)))[0]["priority"];
+            // prior = ((`select priority from todos where t_id='${t_id}' and uid=${uid};`));
+        } 
+        if (!status) {
+            status = (await query(`select status from todos where t_id='${t_id}' and uid=${uid};`))[0]["status"];
+        }
+        await query(`update todos set priority=${prior},status=${status} where uid=${uid} and t_id='${t_id}'`);
+        const data = await query(`select * from  todos where uid=${uid} and t_id='${t_id}'`);
+        res.json({ message: data });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error });
+    }
+}

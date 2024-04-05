@@ -4,7 +4,8 @@ const express = require('express');
 const path = require('path');
 const bodyparser = require('body-parser');
 const config = require('./config')
-const routes = require('./routes/routes');
+const dbroutes = require('./routes/routes');
+const usrroutes = require('./routes/routes');
 const cookieparser = require('cookie-parser');
 
 const app = express();
@@ -15,7 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser())
 
 // Routes
-app.use('/todos', routes);
+app.use('/todos', dbroutes);
+app.use('/user', usrroutes);
 
 app.use('/', (req, res) => {
     res.json({ msg: "Wow" });

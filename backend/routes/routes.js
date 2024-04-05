@@ -1,11 +1,13 @@
 const express = require('express');
-const router = express.Router();
+const dbrouter = express.Router();
+const usrrouter = express.Router();
 const dbcontroller = require('../controllers/dbcontroller')
 
-router.get('/all', dbcontroller.getAlltodos);
-router.get('/u/:id', dbcontroller.getIdtodos);
-router.post('/create', dbcontroller.createtodo);
-router.post('/delete', dbcontroller.deletetodo);
+dbrouter.get('/all', dbcontroller.getAlltodos);
+dbrouter.get('/u/:id', dbcontroller.getIdtodos);
+dbrouter.post('/create', dbcontroller.createtodo);
+dbrouter.post('/delete', dbcontroller.deletetodo);
+dbrouter.post('/update', dbcontroller.updatetodo);
 
 
-module.exports = router;
+module.exports = dbrouter,usrrouter;
