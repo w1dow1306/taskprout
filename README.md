@@ -33,23 +33,25 @@ Sticky board to show my projects and what i am currently doing
 
 
 
-#TODO MODEL
+#Models
 
-title --> title of your todo
+    #TODO MODEL
 
-, desc -->short description
+        title --> title of your todo
 
-, body ----> content 
+        , desc -->short description
 
-, prior ---> priority [0,1,2] ["urgent","delayed","yearly"]
+        , body ----> content 
 
-, status --> status [0,1,2] ["pending","completed","ongoing"]
+        , prior ---> priority [0,1,2] ["urgent","delayed","yearly"]
+
+        , status --> status [0,1,2] ["pending","completed","ongoing"]
 
 
-#USER MODEL
+    #USER MODEL
 
-name --> name of the user
+        name --> name of the user
 
-, password --> password of the user
+        , password --> password of the user
 
-, username  --> username of the user
+        , username  --> username of the user
