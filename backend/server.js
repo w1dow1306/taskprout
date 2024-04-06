@@ -4,8 +4,8 @@ const express = require('express');
 const path = require('path');
 const bodyparser = require('body-parser');
 const config = require('./config')
-const dbroutes = require('./routes/routes');
-const usrroutes = require('./routes/routes');
+const {dbrouter} = require('./routes/routes');
+const {usrrouter} = require('./routes/routes');
 const cookieparser = require('cookie-parser');
 
 const app = express();
@@ -16,12 +16,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser())
 
 // Routes
-app.use('/todos', dbroutes);
-app.use('/user', usrroutes);
+app.use('/todos', dbrouter);
+app.use('/user', usrrouter);
 
 app.use('/', (req, res) => {
     res.json({ msg: "Wow" });
 })
+
 
 // Start the server
 app.listen(config.port, config.host, () => {
