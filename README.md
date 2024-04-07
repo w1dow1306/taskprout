@@ -3,8 +3,7 @@ Sticky board to show my projects and what i am currently doing
 
 
 #Todos
-//TODO: create front end
-
+//TODO: Add edit functionality to this
 
 
 
