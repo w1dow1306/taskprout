@@ -1,17 +1,21 @@
 console.clear();
 //Imports
 const express = require('express');
-const path = require('path');
 const bodyparser = require('body-parser');
+const cors = require('cors');
 const config = require('./config')
-const {dbrouter} = require('./routes/routes');
-const {usrrouter} = require('./routes/routes');
+const { dbrouter } = require('./routes/routes');
+const { usrrouter } = require('./routes/routes');
 const cookieparser = require('cookie-parser');
+// const options = {
+//     origin: 'http://localhost',
+// }
 
 const app = express();
 
 //MIddle wears
 app.use(bodyparser.json());
+app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser())
 

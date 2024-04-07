@@ -10,6 +10,7 @@ exports.getAlltodos = async (req, res) => {
         const data = await query('select * from todos');
         res.json(data);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };
